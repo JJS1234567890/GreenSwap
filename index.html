@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GreenSwap | Student-led Circular Marketplace</title>
+  <meta
+    name="description"
+    content="GreenSwap helps students buy and sell second-hand items on campus in a simple, trusted way."
+  />
+  <style>
+    :root {
+      --bg: #f7f8f3;
+      --surface: #ffffff;
+      --surface-alt: #eef5ea;
+      --text: #183126;
+      --muted: #5f7266;
+      --primary: #2f7d44;
+      --primary-dark: #225d32;
+      --primary-soft: #dcebd9;
+      --accent: #d8a544;
+      --accent-soft: #f7ecd2;
+      --border: #dbe5d7;
+      --shadow: 0 20px 50px rgba(24, 49, 38, 0.08);
+      --radius-lg: 24px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: linear-gradient(180deg, #fbfcf8 0%, #f4f7ef 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(var(--max-width), calc(100% - 2rem));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 5.5rem 0;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.4rem 0.8rem;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(47, 125, 68, 0.14);
+      border-radius: 999px;
+      color: var(--primary-dark);
+      font-size: 0.92rem;
+      font-weight: 600;
+      backdrop-filter: blur(8px);
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 999px;
+      background: var(--accent);
+      box-shadow: 0 0 0 6px rgba(216, 165, 68, 0.12);
+    }
+
+    .section-heading {
+      max-width: 700px;
+      margin-bottom: 2.4rem;
+    }
+
+    .section-heading h2 {
+      margin: 0.9rem 0 0.8rem;
+      font-size: clamp(1.9rem, 3vw, 3rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(247, 248, 243, 0.78);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(47, 125, 68, 0.08);
+    }
+
+    .nav {
+      min-height: 76px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      font-size: 1.1rem;
+    }
+
+    .brand-mark {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--primary) 0%, #7fb76d 100%);
+      color: white;
+      box-shadow: 0 10px 24px rgba(47, 125, 68, 0.25);
+      font-size: 1.25rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary-dark);
+    }
+
+    .btn,
+    button,
+    input[type="submit"] {
+      font: inherit;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.95rem 1.3rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      font-weight: 700;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: white;
+      box-shadow: 0 14px 30px rgba(47, 125, 68, 0.22);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.88);
+      color: var(--text);
+      border: 1px solid rgba(24, 49, 38, 0.08);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 5.5rem 0 3.5rem;
+    }
+
+    .hero::before,
+    .hero::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(8px);
+      z-index: -1;
+    }
+
+    .hero::before {
+      width: 360px;
+      height: 360px;
+      background: rgba(127, 183, 109, 0.16);
+      top: -100px;
+      right: -60px;
+    }
+
+    .hero::after {
+      width: 320px;
+      height: 320px;
+      background: rgba(216, 165, 68, 0.12);
+      left: -80px;
+      bottom: 0;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 2.2rem;
+      align-items: center;
+    }
+
+    .hero-copy h1 {
+      margin: 1rem 0 1rem;
+      font-size: clamp(2.7rem, 7vw, 5.4rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      max-width: 11ch;
+    }
+
+    .hero-copy p {
+      margin: 0 0 1.6rem;
+      color: var(--muted);
+      font-size: 1.08rem;
+      max-width: 60ch;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-note {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .hero-note span {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+    }
+
+    .hero-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(247,248,243,0.96) 100%);
+      border: 1px solid rgba(47, 125, 68, 0.12);
+      border-radius: 28px;
+      padding: 1.3rem;
+      box-shadow: var(--shadow);
+    }
+
+    .dashboard {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .dashboard-main {
+      border-radius: 24px;
+      padding: 1.4rem;
+      min-height: 330px;
+      background:
+        radial-gradient(circle at top right, rgba(216, 165, 68, 0.22), transparent 30%),
+        linear-gradient(135deg, #204f2f 0%, #2f7d44 55%, #83b96f 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .dashboard-main::after {
+      content: "";
+      position: absolute;
+      inset: auto -10% -18% auto;
+      width: 220px;
+      height: 220px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.09);
+    }
+
+    .dashboard-badge {
+      display: inline-flex;
+      padding: 0.45rem 0.8rem;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.18);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .dashboard-main h3 {
+      margin: 1rem 0 0.7rem;
+      font-size: 1.9rem;
+      line-height: 1.1;
+      max-width: 11ch;
+    }
+
+    .dashboard-main p {
+      margin: 0;
+      color: rgba(255,255,255,0.84);
+      max-width: 34ch;
+    }
+
+    .mini-chart {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      align-items: end;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
+      height: 130px;
+    }
+
+    .bar {
+      border-radius: 18px 18px 8px 8px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.58) 100%);
+      position: relative;
+      min-height: 36px;
+    }
+
+    .bar span {
+      position: absolute;
+      bottom: calc(100% + 0.45rem);
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.78rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .metric-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 1rem;
+      box-shadow: 0 10px 24px rgba(24, 49, 38, 0.05);
+    }
+
+    .metric-card small {
+      color: var(--muted);
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.35rem;
+    }
+
+    .metric-card strong {
+      display: block;
+      font-size: 1.6rem;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      color: var(--primary-dark);
+      margin-bottom: 0.45rem;
+    }
+
+    .metric-card p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .stats-bar {
+      margin-top: 2rem;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(47, 125, 68, 0.1);
+      box-shadow: var(--shadow);
+      border-radius: 22px;
+      padding: 1rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .stat {
+      padding: 1rem;
+      border-radius: 18px;
+      background: linear-gradient(180deg, #fff 0%, #f6faf3 100%);
+      border: 1px solid var(--border);
+    }
+
+    .stat strong {
+      display: block;
+      font-size: 2rem;
+      letter-spacing: -0.05em;
+      color: var(--primary-dark);
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 0.97rem;
+    }
+
+    .problem-grid,
+    .signup-grid,
+    .counter-grid {
+      display: grid;
+      grid-template-columns: 0.95fr 1.05fr;
+      gap: 1.8rem;
+      align-items: stretch;
+    }
+
+    .panel,
+    .testimonial,
+    .signup-panel,
+    .signup-display,
+    .counter-card,
+    .counter-step {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid rgba(47, 125, 68, 0.1);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+    }
+
+    .panel,
+    .counter-card,
+    .counter-step {
+      padding: 1.6rem;
+    }
+
+    .problem-card {
+      background: linear-gradient(180deg, #ffffff 0%, #f8faf6 100%);
+    }
+
+    .problem-list {
+      display: grid;
+      gap: 0.9rem;
+      margin-top: 1.4rem;
+    }
+
+    .problem-item {
+      display: flex;
+      gap: 0.9rem;
+      align-items: flex-start;
+      padding: 0.95rem 1rem;
+      border-radius: 16px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+    }
+
+    .problem-item .icon,
+    .feature-icon,
+    .step-number,
+    .counter-icon {
+      width: 44px;
+      height: 44px;
+      flex: 0 0 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 14px;
+      font-weight: 800;
+    }
+
+    .problem-item .icon {
+      background: var(--accent-soft);
+      color: #8b6517;
+      font-size: 1.2rem;
+    }
+
+    .problem-item h3,
+    .feature-card h3,
+    .step-card h3,
+    .counter-step h3 {
+      margin: 0 0 0.3rem;
+      font-size: 1.05rem;
+    }
+
+    .problem-item p,
+    .feature-card p,
+    .step-card p,
+    .panel p,
+    .testimonial p,
+    .signup-copy p,
+    .footer p,
+    .footer a,
+    .footer li,
+    .signup-display p,
+    .counter-card p,
+    .counter-step p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .highlight-panel {
+      padding: 1.8rem;
+      background: linear-gradient(135deg, #234d32 0%, #2f7d44 60%, #7fb76d 100%);
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .highlight-panel::before {
+      content: "";
+      position: absolute;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      right: -80px;
+      top: -80px;
+    }
+
+    .highlight-panel h3 {
+      margin: 0 0 0.8rem;
+      font-size: 1.7rem;
+      line-height: 1.15;
+    }
+
+    .highlight-panel p,
+    .highlight-panel li {
+      color: rgba(255,255,255,0.88);
+    }
+
+    .check-list {
+      display: grid;
+      gap: 0.8rem;
+      margin: 1.3rem 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .check-list li {
+      display: flex;
+      gap: 0.7rem;
+      align-items: flex-start;
+    }
+
+    .check-list li::before {
+      content: "✓";
+      width: 1.35rem;
+      height: 1.35rem;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.14);
+      color: white;
+      font-size: 0.82rem;
+      margin-top: 0.1rem;
+      flex-shrink: 0;
+    }
+
+    .cards-grid,
+    .steps-grid,
+    .counter-steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.2rem;
+    }
+
+    .feature-card,
+    .step-card {
+      padding: 1.5rem;
+      border-radius: 22px;
+      background: rgba(255,255,255,0.88);
+      border: 1px solid rgba(47, 125, 68, 0.1);
+      box-shadow: var(--shadow);
+      height: 100%;
+    }
+
+    .feature-icon {
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, var(--primary-soft), #f4f7e9);
+      color: var(--primary-dark);
+      border: 1px solid rgba(47, 125, 68, 0.1);
+      font-size: 1.15rem;
+    }
+
+    .step-number,
+    .counter-icon {
+      margin-bottom: 1rem;
+      background: var(--accent-soft);
+      color: #8b6517;
+      border: 1px solid rgba(216, 165, 68, 0.25);
+      font-size: 1rem;
+    }
+
+    .counter-card {
+      background: linear-gradient(135deg, #234d32 0%, #2f7d44 60%, #7fb76d 100%);
+      color: white;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .counter-card::after {
+      content: "";
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      right: -65px;
+      bottom: -65px;
+    }
+
+    .counter-card .eyebrow {
+      background: rgba(255,255,255,0.12);
+      color: white;
+      border-color: rgba(255,255,255,0.18);
+    }
+
+    .counter-card .eyebrow::before {
+      background: #fff3cf;
+      box-shadow: 0 0 0 6px rgba(255,255,255,0.08);
+    }
+
+    .counter-card h3,
+    .counter-card p,
+    .counter-metric small,
+    .counter-metric span {
+      color: rgba(255,255,255,0.88);
+    }
+
+    .counter-main-number {
+      font-size: clamp(3rem, 7vw, 5rem);
+      line-height: 1;
+      letter-spacing: -0.06em;
+      font-weight: 800;
+      margin: 1rem 0 0.4rem;
+      color: white;
+    }
+
+    .counter-subtext {
+      font-size: 1rem;
+      margin-bottom: 1.4rem;
+      color: rgba(255,255,255,0.82);
+    }
+
+    .counter-metrics {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+      margin-top: 1.2rem;
+    }
+
+    .counter-metric {
+      padding: 1rem;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .counter-metric strong {
+      display: block;
+      font-size: 1.8rem;
+      line-height: 1;
+      color: white;
+      margin-bottom: 0.35rem;
+    }
+
+    .counter-steps-grid {
+      margin-top: 1.5rem;
+    }
+
+    .counter-step {
+      background: rgba(255,255,255,0.94);
+    }
+
+    .counter-step h3 {
+      color: var(--text);
+    }
+
+    .testimonial {
+      padding: 2rem;
+      display: grid;
+      gap: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .testimonial::before {
+      content: "“";
+      position: absolute;
+      top: -0.2rem;
+      right: 1rem;
+      font-size: 7rem;
+      line-height: 1;
+      color: rgba(47, 125, 68, 0.08);
+      font-family: Georgia, serif;
+    }
+
+    .quote {
+      font-size: clamp(1.2rem, 2vw, 1.55rem);
+      line-height: 1.45;
+      color: var(--text);
+      max-width: 54ch;
+    }
+
+    .quote-meta {
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+    }
+
+    .avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, var(--primary), #8abd79);
+      color: white;
+      font-weight: 800;
+      box-shadow: 0 10px 25px rgba(47, 125, 68, 0.2);
+    }
+
+    .quote-meta strong {
+      display: block;
+      line-height: 1.2;
+    }
+
+    .quote-meta span {
+      color: var(--muted);
+      font-size: 0.95rem;
+    }
+
+    .signup-panel,
+    .signup-display {
+      padding: 2rem;
+      display: grid;
+      gap: 1.3rem;
+    }
+
+    .signup-copy h2 {
+      margin: 0 0 0.8rem;
+      font-size: clamp(2rem, 3vw, 3rem);
+      line-height: 1.08;
+      letter-spacing: -0.04em;
+    }
+
+    .signup-tabs,
+    .list-tabs {
+      display: inline-grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0.55rem;
+      padding: 0.35rem;
+      background: #f3f7ef;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      width: 100%;
+    }
+
+    .signup-tab,
+    .list-tab {
+      padding: 0.8rem 1rem;
+      border-radius: 999px;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 700;
+      color: var(--muted);
+      transition: 0.2s ease;
+    }
+
+    .signup-tab.active,
+    .list-tab.active {
+      background: white;
+      color: var(--primary-dark);
+      box-shadow: 0 6px 16px rgba(24, 49, 38, 0.08);
+    }
+
+    .role-form {
+      display: none;
+    }
+
+    .role-form.active {
+      display: grid;
+      gap: 0.95rem;
+    }
+
+    .form {
+      display: grid;
+      gap: 0.95rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.85rem;
+    }
+
+    .input {
+      width: 100%;
+      padding: 1rem 1.05rem;
+      border-radius: 16px;
+      border: 1px solid var(--border);
+      background: #fff;
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .input:focus {
+      border-color: rgba(47, 125, 68, 0.4);
+      box-shadow: 0 0 0 4px rgba(47, 125, 68, 0.12);
+    }
+
+    .fineprint {
+      font-size: 0.9rem;
+      color: var(--muted);
+    }
+
+    .success-message,
+    .error-message {
+      display: none;
+      padding: 0.9rem 1rem;
+      border-radius: 14px;
+      font-weight: 600;
+    }
+
+    .success-message {
+      background: #e7f6e8;
+      color: var(--primary-dark);
+      border: 1px solid #cbe6cf;
+    }
+
+    .error-message {
+      background: #fff1e9;
+      color: #9b4d11;
+      border: 1px solid #f0cfba;
+    }
+
+    .display-header {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .registration-list {
+      display: grid;
+      gap: 0.8rem;
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 0.2rem;
+    }
+
+    .registration-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.95rem 1rem;
+      border-radius: 16px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+    }
+
+    .registration-item strong {
+      display: block;
+      font-size: 0.98rem;
+      color: var(--text);
+    }
+
+    .registration-item small {
+      display: block;
+      color: var(--muted);
+      margin-top: 0.15rem;
+    }
+
+    .role-badge {
+      padding: 0.38rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: var(--accent-soft);
+      color: #8b6517;
+      white-space: nowrap;
+    }
+
+    .footer {
+      padding: 2.2rem 0 3rem;
+      border-top: 1px solid rgba(47, 125, 68, 0.1);
+      background: rgba(255,255,255,0.55);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr 0.8fr;
+      gap: 1.5rem;
+      align-items: start;
+    }
+
+    .footer h4 {
+      margin: 0 0 0.8rem;
+      font-size: 1rem;
+    }
+
+    .footer ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.55rem;
+    }
+
+    .footer a:hover {
+      color: var(--primary-dark);
+    }
+
+    .footer-bottom {
+      margin-top: 1.8rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(47, 125, 68, 0.08);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.8rem;
+      color: var(--muted);
+      font-size: 0.94rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero-grid,
+      .problem-grid,
+      .signup-grid,
+      .footer-grid,
+      .counter-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .stats-grid,
+      .cards-grid,
+      .steps-grid,
+      .counter-steps-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .nav-links {
+        display: none;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .section {
+        padding: 4rem 0;
+      }
+
+      .hero {
+        padding-top: 4rem;
+      }
+
+      .stats-grid,
+      .cards-grid,
+      .steps-grid,
+      .dashboard-grid,
+      .form-row,
+      .counter-metrics,
+      .counter-steps-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy h1 {
+        max-width: 9ch;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .stats-bar,
+      .hero-card,
+      .panel,
+      .testimonial,
+      .signup-panel,
+      .signup-display,
+      .feature-card,
+      .step-card,
+      .counter-card,
+      .counter-step {
+        border-radius: 20px;
+      }
+
+      .mini-chart {
+        gap: 0.5rem;
+      }
+
+      .container {
+        width: min(var(--max-width), calc(100% - 1.25rem));
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav">
+      <a href="#top" class="brand" aria-label="GreenSwap Home">
+        <span class="brand-mark">🌿</span>
+        <span>GreenSwap</span>
+      </a>
+      <nav class="nav-links" aria-label="Primary navigation">
+        <a href="#about">About Us</a>
+        <a href="#features">Features</a>
+        <a href="#counter">Transaction Counter</a>
+        <a href="#signup">Join</a>
+      </nav>
+      <a href="#signup" class="btn btn-primary">Get Early Access</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <section class="hero">
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <span class="eyebrow">Student marketplace for sustainable living</span>
+            <h1>Buy smarter. Sell easier. Waste less.</h1>
+            <p>
+              GreenSwap helps students buy and sell second-hand items on campus in a simple, trusted way.
+            </p>
+            <div class="hero-actions">
+              <a href="#signup" class="btn btn-primary" id="heroSellerBtn">For Sellers</a>
+              <a href="#signup" class="btn btn-secondary" id="heroBuyerBtn">For Buyers</a>
+            </div>
+            <div class="hero-note" aria-label="Key trust signals">
+              <span>♻️ Less waste</span>
+              <span>💸 Lower costs</span>
+              <span>🎓 Students only</span>
+            </div>
+          </div>
+
+          <div class="hero-card" aria-label="GreenSwap impact preview card">
+            <div class="dashboard">
+              <div class="dashboard-main">
+                <span class="dashboard-badge">GreenSwap at a glance</span>
+                <h3>One place for student buying and selling.</h3>
+                <p>Find what you need, sell what you do not, and keep useful items on campus.</p>
+                <div class="mini-chart" aria-hidden="true">
+                  <div class="bar" style="height: 58%;"><span>Textbooks</span></div>
+                  <div class="bar" style="height: 82%;"><span>Dorm items</span></div>
+                  <div class="bar" style="height: 49%;"><span>Clothing</span></div>
+                  <div class="bar" style="height: 70%;"><span>Electronics</span></div>
+                </div>
+              </div>
+              <div class="dashboard-grid">
+                <div class="metric-card">
+                  <small>Student savings</small>
+                  <strong>£120+</strong>
+                  <p>Estimated savings each term by buying second-hand.</p>
+                </div>
+                <div class="metric-card">
+                  <small>Fast local pickup</small>
+                  <strong>24 hrs</strong>
+                  <p>Many popular items can be collected the same day.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats-bar" aria-label="Student survey insights">
+          <div class="stats-grid">
+            <article class="stat">
+              <strong>78%</strong>
+              <span>have items they no longer need each term.</span>
+            </article>
+            <article class="stat">
+              <strong>64%</strong>
+              <span>want cheaper ways to get everyday essentials.</span>
+            </article>
+            <article class="stat">
+              <strong>71%</strong>
+              <span>would use a student-only resale platform.</span>
+            </article>
+            <article class="stat">
+              <strong>52%</strong>
+              <span>have thrown away usable items instead of selling them.</span>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">About us</span>
+          <h2>GreenSwap is a student marketplace built for campus life.</h2>
+          <p>
+            We make it easier for students to buy and sell useful second-hand items nearby.
+          </p>
+        </div>
+
+        <div class="problem-grid">
+          <div class="panel problem-card">
+            <div class="problem-list">
+              <div class="problem-item">
+                <div class="icon">🎯</div>
+                <div>
+                  <h3>Made for students</h3>
+                  <p>GreenSwap focuses on the items students use most, from textbooks to dorm essentials.</p>
+                </div>
+              </div>
+              <div class="problem-item">
+                <div class="icon">🤝</div>
+                <div>
+                  <h3>Simple and trusted</h3>
+                  <p>Students can connect with other students in one clear, local platform.</p>
+                </div>
+              </div>
+              <div class="problem-item">
+                <div class="icon">🌱</div>
+                <div>
+                  <h3>Better for the planet</h3>
+                  <p>Buying and selling second-hand helps reduce waste and supports responsible consumption.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel highlight-panel">
+            <h3>Our goal is to make second-hand the first choice for students.</h3>
+            <p>
+              GreenSwap gives students a clear way to save money, find useful items, and pass things on instead of throwing them away.
+            </p>
+            <ul class="check-list">
+              <li>Buy affordable items near campus.</li>
+              <li>Sell unused items quickly and easily.</li>
+              <li>Support UN SDG 12 with everyday actions.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Why GreenSwap</span>
+          <h2>Clear, useful features for student buyers and sellers.</h2>
+          <p>
+            Everything is designed to be simple, local, and easy to understand.
+          </p>
+        </div>
+
+        <div class="cards-grid">
+          <article class="feature-card">
+            <div class="feature-icon">🎓</div>
+            <h3>Student-only access</h3>
+            <p>Buy and sell within a campus community you can trust.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">📦</div>
+            <h3>Easy listings</h3>
+            <p>Post an item fast with clear details and simple pickup options.</p>
+          </article>
+
+          <article class="feature-card">
+            <div class="feature-icon">🔢</div>
+            <h3>Transaction counter</h3>
+            <p>Track successful exchanges and show real platform activity with live animated numbers.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="how-it-works">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">How it works</span>
+          <h2>Start in three simple steps.</h2>
+          <p>
+            Whether you want to buy or sell, GreenSwap keeps the process easy.
+          </p>
+        </div>
+
+        <div class="steps-grid">
+          <article class="step-card">
+            <div class="step-number">01</div>
+            <h3>Sign up</h3>
+            <p>Create your account with your student email.</p>
+          </article>
+
+          <article class="step-card">
+            <div class="step-number">02</div>
+            <h3>Browse or list</h3>
+            <p>Find items you need or post items you want to sell.</p>
+          </article>
+
+          <article class="step-card">
+            <div class="step-number">03</div>
+            <h3>Meet and complete</h3>
+            <p>Arrange pickup on campus and complete the exchange quickly.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="counter">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Core feature</span>
+          <h2>Transaction counter with animated steps.</h2>
+          <p>
+            This gives users a clear view of platform activity and makes each completed exchange feel visible and real.
+          </p>
+        </div>
+
+        <div class="counter-grid">
+          <div class="counter-card">
+            <span class="eyebrow">Live counter</span>
+            <div class="counter-main-number" data-target="1284">0</div>
+            <p class="counter-subtext">successful student transactions</p>
+
+            <div class="counter-metrics">
+              <div class="counter-metric">
+                <small>Items sold</small>
+                <strong data-target="642">0</strong>
+                <span>seller-side completed listings</span>
+              </div>
+              <div class="counter-metric">
+                <small>Items bought</small>
+                <strong data-target="381">0</strong>
+                <span>buyer-side completed purchases</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="counter-steps-grid">
+            <article class="counter-step">
+              <div class="counter-icon">01</div>
+              <h3>Seller lists an item</h3>
+              <p>A student posts a product with a short title, description, and price.</p>
+            </article>
+
+            <article class="counter-step">
+              <div class="counter-icon">02</div>
+              <h3>Buyer completes the deal</h3>
+              <p>Another student finds the item, contacts the seller, and arranges pickup.</p>
+            </article>
+
+            <article class="counter-step">
+              <div class="counter-icon">03</div>
+              <h3>Counter goes up</h3>
+              <p>When the exchange is completed, the platform updates the transaction count with animation.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="testimonial">
+          <p class="quote">
+            GreenSwap makes second-hand shopping on campus feel easy, safe, and useful.
+          </p>
+          <div class="quote-meta">
+            <div class="avatar" aria-hidden="true">AM</div>
+            <div>
+              <strong>Aisha M.</strong>
+              <span>University Student</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="signup">
+      <div class="container">
+        <div class="section-heading">
+          <span class="eyebrow">Join GreenSwap</span>
+          <h2>Register as a buyer or seller.</h2>
+          <p>
+            Buyers and sellers have separate registration channels, and recent sign-ups are shown below with private email masking.
+          </p>
+        </div>
+
+        <div class="signup-grid">
+          <div class="signup-panel">
+            <div class="signup-tabs">
+              <button class="signup-tab active" type="button" data-role="buyer">Buyer registration</button>
+              <button class="signup-tab" type="button" data-role="seller">Seller registration</button>
+            </div>
+
+            <form class="role-form active" id="buyerForm" novalidate>
+              <label for="buyerEmail" class="fineprint">Buyer university email</label>
+              <div class="form-row">
+                <input
+                  class="input"
+                  type="email"
+                  id="buyerEmail"
+                  placeholder="buyer@university.ac.uk"
+                  aria-label="Buyer email address"
+                  required
+                />
+                <button type="submit" class="btn btn-primary">Join as Buyer</button>
+              </div>
+              <div class="success-message" id="buyerSuccess">Buyer registration complete.</div>
+              <div class="error-message" id="buyerError">Please enter a valid buyer email address.</div>
+            </form>
+
+            <form class="role-form" id="sellerForm" novalidate>
+              <label for="sellerEmail" class="fineprint">Seller university email</label>
+              <div class="form-row">
+                <input
+                  class="input"
+                  type="email"
+                  id="sellerEmail"
+                  placeholder="seller@university.ac.uk"
+                  aria-label="Seller email address"
+                  required
+                />
+                <button type="submit" class="btn btn-primary">Join as Seller</button>
+              </div>
+              <div class="success-message" id="sellerSuccess">Seller registration complete.</div>
+              <div class="error-message" id="sellerError">Please enter a valid seller email address.</div>
+            </form>
+
+            <p class="fineprint">Only part of each email is displayed to protect user privacy.</p>
+          </div>
+
+          <div class="signup-display">
+            <div class="display-header">
+              <div class="list-tabs">
+                <button class="list-tab active" type="button" data-list="buyer">Registered buyers</button>
+                <button class="list-tab" type="button" data-list="seller">Registered sellers</button>
+              </div>
+              <p>Scroll to view recent buyer or seller registrations.</p>
+            </div>
+
+            <div class="registration-list" id="registrationList"></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="brand" style="margin-bottom: 0.9rem;">
+            <span class="brand-mark">🌿</span>
+            <span>GreenSwap</span>
+          </div>
+          <p>
+            A student startup helping campuses make buying and selling second-hand easier.
+          </p>
+        </div>
+
+        <div>
+          <h4>Explore</h4>
+          <ul>
+            <li><a href="#about">About us</a></li>
+            <li><a href="#features">Features</a></li>
+            <li><a href="#counter">Transaction Counter</a></li>
+            <li><a href="#signup">Join</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4>Contact</h4>
+          <ul>
+            <li><a href="mailto:hello@greenswap.co">hello@greenswap.co</a></li>
+            <li><a href="#signup">Partner with your university</a></li>
+            <li><a href="#top">Back to top</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>© 2026 GreenSwap. All rights reserved.</span>
+        <span>Designed for sustainable student communities.</span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const signupTabs = document.querySelectorAll('.signup-tab');
+    const roleForms = document.querySelectorAll('.role-form');
+    const listTabs = document.querySelectorAll('.list-tab');
+    const registrationList = document.getElementById('registrationList');
+    const heroBuyerBtn = document.getElementById('heroBuyerBtn');
+    const heroSellerBtn = document.getElementById('heroSellerBtn');
+
+    const registrations = {
+      buyer: [
+        "al****@ucl.ac.uk",
+        "mi****@kcl.ac.uk",
+        "so****@warwick.ac.uk",
+        "em****@bristol.ac.uk",
+        "jo****@bath.ac.uk",
+        "ha****@leeds.ac.uk"
+      ],
+      seller: [
+        "li****@ucl.ac.uk",
+        "da****@manchester.ac.uk",
+        "na****@sheffield.ac.uk",
+        "ch****@durham.ac.uk",
+        "re****@leeds.ac.uk",
+        "ol****@liverpool.ac.uk"
+      ]
+    };
+
+    let currentRole = "buyer";
+    let currentListType = "buyer";
+
+    function maskEmail(email) {
+      const [name, domain] = email.split("@");
+      const visible = name.slice(0, 2);
+      const hidden = "*".repeat(Math.max(name.length - 2, 2));
+      return `${visible}${hidden}@${domain}`;
+    }
+
+    function setActiveRole(role) {
+      currentRole = role;
+
+      signupTabs.forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.role === role);
+      });
+
+      roleForms.forEach(form => {
+        form.classList.toggle("active", form.id === `${role}Form`);
+      });
+    }
+
+    function renderRegistrationList(type) {
+      currentListType = type;
+
+      listTabs.forEach(tab => {
+        tab.classList.toggle("active", tab.dataset.list === type);
+      });
+
+      registrationList.innerHTML = "";
+
+      registrations[type].forEach((email, index) => {
+        const item = document.createElement("div");
+        item.className = "registration-item";
+        item.innerHTML = `
+          <div>
+            <strong>${email}</strong>
+            <small>Recent registration</small>
+          </div>
+          <span class="role-badge">${type === "buyer" ? "Buyer" : "Seller"} ${index + 1}</span>
+        `;
+        registrationList.appendChild(item);
+      });
+    }
+
+    signupTabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        setActiveRole(tab.dataset.role);
+      });
+    });
+
+    listTabs.forEach(tab => {
+      tab.addEventListener("click", () => {
+        renderRegistrationList(tab.dataset.list);
+      });
+    });
+
+    heroBuyerBtn.addEventListener("click", () => {
+      setActiveRole("buyer");
+      renderRegistrationList("buyer");
+    });
+
+    heroSellerBtn.addEventListener("click", () => {
+      setActiveRole("seller");
+      renderRegistrationList("seller");
+    });
+
+    function attachFormHandler(formId, inputId, successId, errorId, role) {
+      const form = document.getElementById(formId);
+      const input = document.getElementById(inputId);
+      const success = document.getElementById(successId);
+      const error = document.getElementById(errorId);
+
+      form.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const email = input.value.trim();
+        const isValidEmail = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
+        success.style.display = "none";
+        error.style.display = "none";
+
+        if (!isValidEmail) {
+          error.style.display = "block";
+          input.focus();
+          return;
+        }
+
+        registrations[role].unshift(maskEmail(email));
+        success.style.display = "block";
+        input.value = "";
+
+        setActiveRole(role);
+        renderRegistrationList(role);
+      });
+    }
+
+    attachFormHandler("buyerForm", "buyerEmail", "buyerSuccess", "buyerError", "buyer");
+    attachFormHandler("sellerForm", "sellerEmail", "sellerSuccess", "sellerError", "seller");
+
+    const animatedCounters = document.querySelectorAll("[data-target]");
+
+    function animateCounter(el) {
+      const target = parseInt(el.getAttribute("data-target"), 10);
+      const duration = 1600;
+      const start = 0;
+      const startTime = performance.now();
+
+      function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = Math.floor(start + (target - start) * eased);
+
+        el.textContent = value.toLocaleString();
+
+        if (progress < 1) {
+          requestAnimationFrame(update);
+        } else {
+          el.textContent = target.toLocaleString();
+        }
+      }
+
+      requestAnimationFrame(update);
+    }
+
+    const counterObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          animateCounter(entry.target);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.45 });
+
+    animatedCounters.forEach(counter => {
+      counterObserver.observe(counter);
+    });
+
+    setActiveRole("buyer");
+    renderRegistrationList("buyer");
+  </script>
+</body>
+</html>
